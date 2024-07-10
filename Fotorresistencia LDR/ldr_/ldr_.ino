@@ -1,20 +1,34 @@
-const int sensorPin = A0;
-const int umbral = 500; 
-
-void setup() {
-  Serial.begin(9600); // Inicializar comunicación serial
+int lectura = 0;
+int pinled1 = 10;
+int pinled2 = 11;
+int pinalarma = 9;
+void setup ()
+{
+  Serial.begin(9600);
 }
-
-void loop() {
-  int sensorValue = analogRead(sensorPin); 
-  Serial.print("Valor del sensor: ");
-  Serial.println(sensorValue); 
-
-  if (sensorValue < umbral) {
-    Serial.println("Poca luz");
-  } else {
-    Serial.println("Mucha luz");
+void loop ()
+{
+  if (lectura <512){
+ digitalWrite (pinled1, 1);
+ digitalWrite (pinled2, 0);
+ digitalWrite (pinalarma, 0);
   }
-
-  delay(1000);
+  else {
+ digitalWrite(pinled1, 0);
+ digitalWrite(pinled2, 1); 
+ digitalWrite (pinalarma, 0);
+  }
+  if (lectura >512){
+    digitalWrite (pinled1, 0);
+    digitalWrite (pinled2, 0);
+    digitalWrite (pinalarma, 1);
+  }
+  else {
+   digitalWrite(pinled1, 1);
+   digitalWrite(pinled2, 0); 
+   digitalWrite (pinalarma, 0); 
+  }
+  lectura = analogRead(0);
+ Serial.println(lectura);
+ delay (1000);
 }
